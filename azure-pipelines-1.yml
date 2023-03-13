@@ -29,7 +29,7 @@ stages:
         displayName: Store it in a folder
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'github_source_code'
+          ArtifactName: 'githubcode'
           publishLocation: 'Container'
 
 - stage: build the .net app
