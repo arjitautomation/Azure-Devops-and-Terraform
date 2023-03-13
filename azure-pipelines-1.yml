@@ -11,10 +11,10 @@ variables:
 
 stages:
 
-- stage: store the code
+- stage: store
   displayName: Storing git files
   jobs:
-  - job: store github files
+  - job: githubfiles
     pool:
       vmImage: $(os)
     
@@ -32,8 +32,8 @@ stages:
           ArtifactName: 'githubcode'
           publishLocation: 'Container'
 
-- stage: build the .net app
-  displayName: Build .net
+- stage: build the dotnet app
+  displayName: Build dotnet
   jobs:
   - job: Build
     pool:
