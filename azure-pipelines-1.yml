@@ -11,7 +11,9 @@ pool:
   vmImage: $(os)
 
 steps:
-
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
 - task: CopyFiles@2
   inputs:
     Contents: '**'
