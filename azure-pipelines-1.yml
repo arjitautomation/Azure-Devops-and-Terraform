@@ -5,9 +5,10 @@
 
 trigger:
 - master
-
+variables:
+- group: newvariable
 pool:
-  vmImage: ubuntu-latest
+  vmImage: $(os)
 
 steps:
 - task: DotNetCoreCLI@2
