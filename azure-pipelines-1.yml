@@ -5,22 +5,51 @@
 
 trigger:
 - master
+
 variables:
 - group: newvariable
-pool:
-  vmImage: $(os)
 
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-- task: CopyFiles@2
-  inputs:
-    Contents: '**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
+stages:
+
+- stage: store the code
+  displayName: Storing git files
+  jobs:
+  - job: store github files
+    pool:
+      vmImage: $(os)
+    
+    steps:
+      - task: CopyFiles@2
+        displayName: Store github files in folder
+        inputs:
+          Contents: '**'
+          TargetFolder: '$(build.artifactstagingdirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: Store it in a folder
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'github_source_code'
+          publishLocation: 'Container'
+
+- stage: build the .net app
+  displayName: Build .net
+  jobs:
+  - job: Build
+    pool:
+      vmImage: $(os)
+    steps:
+      
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+      - task: CopyFiles@2
+        inputs:
+          Contents: '**'
+          TargetFolder: '$(build.artifactstagingdirectory)'
  
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
