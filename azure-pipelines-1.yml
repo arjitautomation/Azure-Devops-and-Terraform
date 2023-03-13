@@ -32,7 +32,7 @@ stages:
           ArtifactName: 'githubcode'
           publishLocation: 'Container'
 
-- stage: build the dotnet app
+- stage: build
   displayName: Build dotnet
   jobs:
   - job: Build
